@@ -1,27 +1,52 @@
-var apiKey = require('./../.env').apiKey;
+  var apiKey = require('./../.env').apiKey;
 
-var repoItem = function RepoItem(name, description) {
-  this.name = name;
-  this.description = description;
-};
-
-exports.RepoList = function(){
-
-};
-
-exports.RepoList.prototype.getRepos = function(userName, displayFunction){
-  //get data
-  var uName = "JimKlein325";
+  // exports.RepoItem = function RepoItem(name, description) {
+  //   this.name = name;
+  //   this.description = description;
+  // };
 
 
+  function RepoItem (name, description) {
+    this.name = name;
+    this.description = description;
+  };
 
-  // TODO:  GET json request and figure out how to get the json array.
+  RepoItem.prototype.writeHtml = function() {
+    return "<h2>" + this.name + "</h2>" + "<p>" + this.description + "</p>";
+  };
 
-  $.get('https://api.github.com/users/' + uName + '/repos?access_token=' + apiKey).then(function(response){
-      displayFunction(uName);
-      console.log(JSON.stringify(response));
-  }).fail(function(error){
-  console.log(error.responseJSON.message);
-});
+  exports.RepoList = function(){
+  };
 
-};
+  exports.RepoList.prototype.getRepos = function(userName, displayFunction){
+    //get data
+    var uName = "JimKlein325o";
+
+var items = [];
+
+    // TODO:  GET json request and figure out how to get the json array.
+
+    $.get('https://api.github.com/users/' + uName + '/repos?access_token=' + apiKey).then(function(response){
+
+        var responseArray = response;
+        //console.log(repoArray);
+
+        for(var i = 0; i < responseArray.length ; i++) {
+          var repo = responseArray[i];
+          var name = repo.name;
+
+          var repoItem = new RepoItem(repo.name, repo.description);
+          items.push(repoItem);
+          //debugger;
+        }
+        displayFunction(items, "success");
+        //debugger;
+
+    }).fail(function(error){
+//alert("boo!");
+    // console.log(error.responseJSON.message);
+    var message = "Error: " + error.responseJSON.message + ". Please check that the user name is correct.";
+    displayFunction(items, message);
+  });
+
+  };
