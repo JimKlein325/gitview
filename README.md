@@ -11,6 +11,7 @@ Gitview is a sample application for demonstrating basic proficiency in Javascrip
 A user can enter a github user name and view the user's public repositories and their descriptions.
 
 ## Setup/Installation Requirements
+Note: As a prerequisite, you will need npm, gulp, and bower installed globally on your machine.
 * Install this project by cloning this repository:
     https://github.com/JimKlein325/gitview.git
 * Run $ npm install and all packages saved to the manifest file package.json.

@@ -1,6 +1,5 @@
 var apiKey = require('./../.env').apiKey;
-var RepoList = require('./../js/view.js').RepoList;
-var RepoItem = require('./../js/view.js').RepoItem;
+var repository = require('./../js/repository.js').repositoryModule;
 
 var displayRepos = function(repoItems, errorMessage) {
   if (errorMessage === "success") {
@@ -8,7 +7,8 @@ var displayRepos = function(repoItems, errorMessage) {
       var name = repoItems[i].name;
       var description = repoItems[i].description;
       var repoItem = repoItems[i];
-      $('.repoContents').append(repoItem.writeHtml());
+      var displayText = "<h2>" + name + "</h2>" + "<p>" + description + "</p>";
+      $('.repoContents').append(displayText);
     }
   }
   else {
@@ -17,11 +17,11 @@ var displayRepos = function(repoItems, errorMessage) {
 };
 
 $(document).ready(function() {
+  var repository = new Repository();
   $('#viewRepoContents').click(function() {
     var userName = $('#username').val();
     $('#username').val("");
     $('.repoContents').text("");
-    var currentList = new RepoList();
-    currentList.getRepos(userName, displayRepos);
+    repository.getRepos(userName, displayRepos);
   });
 });
